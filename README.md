@@ -12,6 +12,10 @@ git submodule init
 git submodule update
 ```
 
+## Building for XIP
+By default application code is executed from TCM. If you want to run code directly from MRAM (XIP), add parameter `-DXIP=1` to your CMake command as seen below.
+Both cores must use the same run mode.
+
 ## Build DCT demo for High-Performance M55 (M55_HP)
 ```
 mkdir build_hp
@@ -31,9 +35,6 @@ OR
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
 ```
-
-## Building for XIP
-By default application code is executed from TCM. If you want to run code directly from MRAM (XIP), add parameter `-DXIP=1` to your CMake command as seen above.
 
 ## Building for different board variants
 By default, the application is built for DevKit-E7 (Gen 2).
