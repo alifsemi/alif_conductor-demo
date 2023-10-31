@@ -56,7 +56,7 @@
 #define __RW_SIZE     (__RAM_SIZE - __STACK_SIZE - __HEAP_SIZE - __APP_HEAP_SIZE)
 
 LR_ROM __ITCM_BASE NOCOMPRESS __ITCM_SIZE  {    ; load region size_region
-  M55_HE_ROM +0 __ROM_SIZE  {                 ; load address = execution address
+  M55_HE_ROM +0 {                 ; load address = execution address
    *.o (RESET, +First)
    *(InRoot$$Sections)
    .ANY (+RO)
