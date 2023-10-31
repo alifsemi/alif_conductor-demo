@@ -1,0 +1,34 @@
+{
+    "HE_DCT_demo": {
+        "binary": "dct-demo-M55_HE.bin",
+        "version" : "1.0.0",
+        "mramAddress": "0x80000000",
+        "cpu_id": "M55_HE",
+        "flags": ["boot"],
+        "signed": false
+    },
+    "HP_DCT_demo": {
+        "binary": "dct-demo-M55_HP.bin",
+        "version" : "1.0.0",
+        "mramAddress": "0x80120000",
+        "cpu_id": "M55_HP",
+        "flags": ["boot"],
+        "signed": false
+    },
+    "sram0_data": {
+        "binary": "sram0.bin",
+        "version" : "1.0.0",
+        "loadAddress": "0x02000000",
+        "cpu_id": "M55_HE",
+        "flags": ["load"],
+        "signed": false
+    },
+    "sram1_data": {
+        "binary": "sram1.bin",
+        "version" : "1.0.0",
+        "loadAddress": "0x08000000",
+        "cpu_id": "M55_HP",
+        "flags": ["load"],
+        "signed": false
+    }
+}
