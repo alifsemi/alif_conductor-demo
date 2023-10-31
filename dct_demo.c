@@ -263,8 +263,9 @@ error_uninitialize:
     }
 }
 
-static void uart_callback(uint32_t /*event*/)
+static void uart_callback(uint32_t event)
 {
+    (void)event;
 }
 
 static void init_system()

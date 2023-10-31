@@ -36,11 +36,11 @@ find_program(CMAKE_C_COMPILER       arm-none-eabi-gcc)
 find_program(CMAKE_CXX_COMPILER     arm-none-eabi-g++)
 
 if (DEFINED XIP)
-    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/gcc_${ENSEMBLE_CORE}_MRAM.ld)
+    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/gcc_${ENSEMBLE_CORE}_MRAM.ld)
     set (XIP ${XIP}) # To avoid CMake warning about unused XIP variable
 else()
     # Default is TCM
-    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/gcc_${ENSEMBLE_CORE}_TCM.ld)
+    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/gcc_${ENSEMBLE_CORE}_TCM.ld)
 endif()
 
 set(CMAKE_C_FLAGS_DEBUG            "-O0 -g"          CACHE STRING "Flags used by the C compiler during DEBUG builds.")
