@@ -157,6 +157,8 @@ target_sources(ensemblecmsis PRIVATE
     ${ALIF_DRIVER_DIR}/Source/Driver_GPIO.c
 )
 
+set_werror_implicit_function_declaration(ensemblecmsis)
+
 target_link_libraries(ensemblecmsis
 PRIVATE
     armcmsis_interface
@@ -182,9 +184,6 @@ target_link_libraries(dct_demo_interface INTERFACE
     armcmsis_interface
 )
 
-target_compile_options(ensemblecmsis PRIVATE
-    -Werror-implicit-function-declaration)
-
 add_library(rte_interface INTERFACE)
 target_include_directories(rte_interface INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/RTE
@@ -197,15 +196,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ensemblecmsis
 )
 
-target_compile_options(${PROJECT_NAME} PRIVATE
-    -Werror
-    -Wall
-    -Wextra
-)
-
 # Tell linker that reset interrupt handler is our entry point
 add_link_options(--entry=Reset_Handler)
 
 # Warnings as errors
 set_warnings_as_errors(${PROJECT_NAME})
+set_werror_implicit_function_declaration(${PROJECT_NAME})
 add_linker_file_to_target(${PROJECT_NAME} ${ALIF_LINKER_FILE})

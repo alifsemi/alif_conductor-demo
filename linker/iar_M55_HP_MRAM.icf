@@ -1,0 +1,56 @@
+/* Copyright (C) 2023 Alif Semiconductor - All Rights Reserved.
+ * Use, distribution and modification of this code is permitted under the
+ * terms stated in the Alif Semiconductor Software License Agreement
+ *
+ * You should have received a copy of the Alif Semiconductor Software
+ * License Agreement with this file. If not, please write to:
+ * contact@alifsemi.com, or visit: https://alifsemi.com/license
+ *
+ */
+
+/*
+* M55-HP application specific settings. These need to changed based on
+* application and system memory requirements
+*/
+
+/* Stack and heap size */
+define symbol CSTACK_size        = 0x1000;
+define symbol HEAP_size          = 0x4000;
+
+/*
+* This linker script is for application to be executed by the
+* M55-HP core. For global shared memory, make sure the memory base and size
+* does not conflict with that in the M55-HP or other cores linker scripts
+*/
+
+/* Set interrupt vector start address */
+define symbol INTVEC_start = 0x80120000;
+
+/* 128 KB per core at the start of ITCM */
+define symbol ITCM_start = 0x00000000;
+define symbol ITCM_end   = ITCM_start + 0x00040000 - 1;
+
+/* 1 MiB MRAM */
+define symbol MRAM_start = 0x80120000;
+define symbol MRAM_end   = MRAM_start + 0x00100000 - 1;
+
+/* DTCM */
+define symbol DTCM_start = 0x20000000;
+define symbol DTCM_end   = DTCM_start + 0x00100000 - 1;
+
+define memory mem with size = 4G;
+define region ITCM_region = mem:[from ITCM_start to ITCM_end];
+define region DTCM_region = mem:[from DTCM_start to DTCM_end];
+define region MRAM_region = mem:[from MRAM_start to MRAM_end];
+
+do not initialize { section .noinit };
+do not initialize { section .bss.noinit };
+initialize by copy { readwrite };
+
+place at address mem:INTVEC_start { readonly section .intvec };
+
+place in MRAM_region { readonly };
+
+define block CSTACK        with alignment = 8, size = CSTACK_size {};
+define block HEAP          with alignment = 8, size = HEAP_size {};
+place in DTCM_region { readwrite, block CSTACK, block HEAP };
