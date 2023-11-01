@@ -73,6 +73,7 @@ add_compile_options(
     -Wall
     -Wno-unused-function
     -Wextra
+    -Werror-implicit-function-declaration
     -Wvla
     -Wno-error=cpp
     -c

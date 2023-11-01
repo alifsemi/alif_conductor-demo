@@ -201,5 +201,4 @@ add_link_options(--entry=Reset_Handler)
 
 # Warnings as errors
 set_warnings_as_errors(${PROJECT_NAME})
-set_werror_implicit_function_declaration(${PROJECT_NAME})
 add_linker_file_to_target(${PROJECT_NAME} ${ALIF_LINKER_FILE})
