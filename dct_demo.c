@@ -323,14 +323,20 @@ int main()
 #if M55_HE
     printf("\nDCT Demo app v%" PRIu32 ".%" PRIu32 " on M55_HE\n\n", (uint32_t)VERSION_MAJOR, (uint32_t)VERSION_MINOR);
 
-    printf("Trying to read SRAM1 (0x%08" PRIx32 ")\n", (uint32_t)SRAM1_BASE);
-    uint32_t *data = (uint32_t*)SRAM1_BASE;
+#if MEMORY_STITCHING
+    printf("Trying to read from relocated SRAM1 (0x%08" PRIx32 ")\n", (uint32_t)0x02400000);
+    volatile uint32_t *data = (uint32_t*)0x02400000;
     printf("Data from SRAM1: 0x%08" PRIx32 "\n", *data);
+#else
+    printf("Trying to read SRAM1 (0x%08" PRIx32 ")\n", (uint32_t)SRAM1_BASE);
+    volatile uint32_t *data = (uint32_t*)SRAM1_BASE;
+    printf("Data from SRAM1: 0x%08" PRIx32 "\n", *data);
+#endif
 
 #else
     printf("\nDCT Demo app v%" PRIu32 ".%" PRIu32 " on M55_HP\n\n", (uint32_t)VERSION_MAJOR, (uint32_t)VERSION_MINOR);
     printf("Trying to read SRAM0 (0x%08" PRIx32 ")\n", (uint32_t)SRAM0_BASE);
-    uint32_t *data = (uint32_t*)SRAM0_BASE;
+    volatile uint32_t *data = (uint32_t*)SRAM0_BASE;
     printf("Data from SRAM0: 0x%08" PRIx32 "\n", *data);
 #endif
 

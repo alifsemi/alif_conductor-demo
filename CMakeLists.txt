@@ -51,6 +51,12 @@ if (DEFINED XIP)
     )
 endif()
 
+set(MEMORY_STITCHING OFF CACHE BOOL "Run memory stitching example.")
+message(STATUS "Memory stitching: ${MEMORY_STITCHING}")
+if (MEMORY_STITCHING)
+    add_compile_definitions(MEMORY_STITCHING)
+endif()
+
 set(ENSEMBLE_BOARD "devkit_gen2" CACHE STRING "Set ENSEMBLE_BOARD to: devkit_gen1/2, appkit_alpha1/2, appkit_gen2 or devkit_b0_cob.")
 message(STATUS "Using Alif Ensemble board: ${ENSEMBLE_BOARD}")
 
@@ -128,7 +134,7 @@ target_include_directories(ensembleboard_interface INTERFACE
 ###################################################
 add_library(corestartup STATIC)
 target_sources(corestartup PRIVATE
-    ${ALIF_DEVICE_DIR}/common/source/mpu_M55.c
+    RTE/mpu_M55.c     # Own variant of MPU needed for memory stitching
     ${ALIF_DEVICE_DIR}/core/${ENSEMBLE_CORE}/source/startup_${ENSEMBLE_CORE}.c
     ${ALIF_DEVICE_DIR}/common/source/system_M55.c
     ${ALIF_DEVICE_DIR}/common/source/system_utils.c
