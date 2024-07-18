@@ -1,6 +1,6 @@
 {
-    "HE_DCT_demo": {
-        "binary": "dct-demo-M55_HE.bin",
+    "HE_Cond_demo": {
+        "binary": "conductor_tool-demo-M55_HE.bin",
         "version" : "1.0.0",
         "mramAddress": "0x80000000",
         "loadAddress": "0x58000000",
@@ -25,7 +25,7 @@
         "signed": false
     },
     "DEVICE": {
-        "binary": "dct_demo_SE_memory_stitching.json",
+        "binary": "conductor_tool_demo_SE_memory_stitching.json",
         "version": "1.0.0"
     }
 }
