@@ -1,13 +1,14 @@
-# DCT demo application
+# Conductor Tool demo application
 
-## DCT demo application
-DCT demo application is an application which is used for demonstrating the [DCT tool](https://conductor.alifsemi.com/).
-Application blinks two LEDs and writes output to UART.
+## Conductor demo application
+Conductor demo application is an application which is used for demonstrating the [Alif Conductor Tool](https://conductor.alifsemi.com/); also known as the Device Configuration Tool or DCT. Please refer to the [Conductor Tool](./Conductor-Tool.md) for details about the tool itself.
 
-# Building DCT demo application
+This demo application blinks two LEDs and writes output to UART.
+
+# Building Conductor demo application
 ```
-git clone git@github.com:alifsemi/dct_demo.git
-cd dct_demo
+git clone git@github.com:alifsemi/alif_conductor-demo.git
+cd alif_conductor-demo
 git submodule init
 git submodule update
 ```
@@ -16,7 +17,7 @@ git submodule update
 By default application code is executed from TCM. If you want to run code directly from MRAM (XIP), add parameter `-DXIP=1` to your CMake command as seen below.
 Both cores must use the same run mode.
 
-## Build DCT demo for High-Performance M55 (M55_HP)
+## Build Conductor demo for High-Performance M55 (M55_HP)
 ```
 mkdir build_hp
 cd build_hp
@@ -26,7 +27,7 @@ cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -D
 make
 ```
 
-## Build DCT demo for High-Efficiency M55 (M55_HE)
+## Build Conductor demo for High-Efficiency M55 (M55_HE)
 ```
 mkdir build_he
 cd build_he
@@ -36,7 +37,7 @@ cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -D
 make
 ```
 
-## Build DCT demo for High-Efficiency M55 (M55_HE) with memory stitching
+## Build Conductor demo for High-Efficiency M55 (M55_HE) with memory stitching
 
 **NOTE** Currently only HE TCM build is supported
 ```
