@@ -1,0 +1,31 @@
+{
+    "HE_Cond_demo": {
+        "binary": "conductor_tool-demo-M55_HE.bin",
+        "version" : "1.0.0",
+        "mramAddress": "0x80000000",
+        "loadAddress": "0x58000000",
+        "cpu_id": "M55_HE",
+        "flags": ["load", "boot"],
+        "signed": false
+    },
+    "sram0_data": {
+        "binary": "sram0.bin",
+        "version" : "1.0.0",
+        "loadAddress": "0x02000000",
+        "cpu_id": "M55_HE",
+        "flags": ["load"],
+        "signed": false
+    },
+    "sram1_data": {
+        "binary": "sram1.bin",
+        "version" : "1.0.0",
+        "loadAddress": "0x08000000",
+        "cpu_id": "M55_HP",
+        "flags": ["load"],
+        "signed": false
+    },
+    "DEVICE": {
+        "binary": "conductor_tool_demo_SE_memory_stitching.json",
+        "version": "1.0.0"
+    }
+}

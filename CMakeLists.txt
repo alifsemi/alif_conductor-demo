@@ -23,9 +23,10 @@ set(ALIF_ENSEMBLE_DIR           ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconduc
 set(ALIF_DRIVER_DIR             ${ALIF_ENSEMBLE_DIR}/Alif_CMSIS)
 set(ALIF_DEVICE_DIR             ${ALIF_ENSEMBLE_DIR}/Device)
 set(ALIF_ENSEMBLE_DRIVERS_DIR   ${ALIF_ENSEMBLE_DIR}/drivers)
+set(ALIF_RTE_DIR                ${ALIF_DEVICE_DIR}/E7/AE722F80F55D5XX)
 
 # Set up the project
-project(dct-demo-${ENSEMBLE_CORE}
+project(conductor_tool-demo-${ENSEMBLE_CORE}
     VERSION 1.0.0
     LANGUAGES C CXX ASM
 )
@@ -98,7 +99,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${ALIF_COMMON_UTILS_DIR}/logging/retarget.c
     ${ALIF_COMMON_UTILS_DIR}/logging/uart_tracelib.c
     ${ALIF_COMMON_UTILS_DIR}/fault_handler/fault_handler.c
-    dct_demo.c
+    conductor_tool_demo.c
 )
 
 add_library(armcmsis_interface INTERFACE)
@@ -120,6 +121,7 @@ add_library(ensembleboard_interface INTERFACE)
 target_include_directories(ensembleboard_interface INTERFACE
     ${ALIF_BOARD_DIR}
     ${ALIF_BOARD_DIR}/${ENSEMBLE_BOARD}
+    ${ALIF_DEVICE_DIR}/common/config
 )
 
 ###################################################
@@ -131,6 +133,7 @@ target_sources(corestartup PRIVATE
     ${ALIF_DEVICE_DIR}/core/${ENSEMBLE_CORE}/source/startup_${ENSEMBLE_CORE}.c
     ${ALIF_DEVICE_DIR}/common/source/system_M55.c
     ${ALIF_DEVICE_DIR}/common/source/system_utils.c
+    ${ALIF_DEVICE_DIR}/common/source/clk.c
     ${ALIF_DEVICE_DIR}/common/source/tgu_M55.c
     ${ALIF_DEVICE_DIR}/common/source/pm.c
 )
@@ -156,6 +159,8 @@ target_sources(ensemblecmsis PRIVATE
     ${ALIF_DRIVER_DIR}/Source/Driver_GPIO.c
 )
 
+set_werror_implicit_function_declaration(ensemblecmsis)
+
 target_link_libraries(ensemblecmsis
 PRIVATE
     armcmsis_interface
@@ -167,38 +172,30 @@ PUBLIC
 )
 
 ###################################################
-##  Add DCT Demo interface                       ##
+##  Add Conductor Tool Demo interface            ##
 ###################################################
-add_library(dct_demo_interface INTERFACE)
-target_include_directories(dct_demo_interface INTERFACE
+add_library(conductor_tool_demo_interface INTERFACE)
+target_include_directories(conductor_tool_demo_interface INTERFACE
     ${ALIF_COMMON_UTILS_DIR}/logging
     ${ALIF_COMMON_UTILS_DIR}/profiling
     ${ALIF_COMMON_UTILS_DIR}/fault_handler
 )
-target_link_libraries(dct_demo_interface INTERFACE
+target_link_libraries(conductor_tool_demo_interface INTERFACE
     ensembleboard_interface
     ensemblecmsis_interface
     armcmsis_interface
 )
 
-target_compile_options(ensemblecmsis PRIVATE
-    -Werror-implicit-function-declaration)
-
 add_library(rte_interface INTERFACE)
 target_include_directories(rte_interface INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/RTE
+    ${ALIF_RTE_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     rte_interface
-    dct_demo_interface
+    conductor_tool_demo_interface
     ensemblecmsis
-)
-
-target_compile_options(${PROJECT_NAME} PRIVATE
-    -Werror
-    -Wall
-    -Wextra
 )
 
 # Tell linker that reset interrupt handler is our entry point

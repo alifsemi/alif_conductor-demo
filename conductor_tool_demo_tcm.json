@@ -1,6 +1,6 @@
 {
-    "HE_DCT_demo": {
-        "binary": "dct-demo-M55_HE.bin",
+    "HE_Cond_demo": {
+        "binary": "conductor_tool-demo-M55_HE.bin",
         "version" : "1.0.0",
         "mramAddress": "0x80000000",
         "loadAddress": "0x58000000",
@@ -8,8 +8,8 @@
         "flags": ["load", "boot"],
         "signed": false
     },
-    "HP_DCT_demo": {
-        "binary": "dct-demo-M55_HP.bin",
+    "HP_Cond_demo": {
+        "binary": "conductor_tool-demo-M55_HP.bin",
         "version" : "1.0.0",
         "mramAddress": "0x80120000",
         "loadAddress": "0x50000000",
