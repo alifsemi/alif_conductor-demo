@@ -3,7 +3,7 @@
 	url = git@github.com:alifsemi/boardlib_DEV.git
 [submodule "packs/AlifSemiconductor/common_app_utils"]
 	path = packs/AlifSemiconductor/common_app_utils
-	url = git@github.com:alifsemi/common_app_utils.git
+	url = git@github.com:alifsemi/alif_common-app-utils.git
 [submodule "packs/AlifSemiconductor/Ensemble"]
 	path = packs/AlifSemiconductor/Ensemble
 	url = git@github.com:alifsemi/b0-cmsis-dfp_DEV.git
