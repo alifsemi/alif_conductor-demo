@@ -37,16 +37,20 @@ cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -D
 make
 ```
 
-## Build Conductor demo for High-Efficiency M55 (M55_HE) with memory stitching
-
-**NOTE** Currently only HE TCM build is supported
+## Build Conductor demo with memory stitching
+Build similar as above, but use CMake option `-DMEMORY_STITCHING=ON`
+Example:
 ```
 mkdir build_he
 cd build_he
+cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON
+OR
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON
 make
 
 Generate ATOC with command:
+./app-gen-toc --filename build/config/conductor_tool_demo_mram_memory_stitching.json
+OR
 ./app-gen-toc --filename build/config/conductor_tool_demo_tcm_memory_stitching.json
 ```
 

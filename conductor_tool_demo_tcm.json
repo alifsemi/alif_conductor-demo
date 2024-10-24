@@ -32,5 +32,9 @@
         "cpu_id": "M55_HP",
         "flags": ["load"],
         "signed": false
+    },
+    "DEVICE": {
+        "binary": "app-device-config.json",
+        "version": "1.0.0"
     }
 }
