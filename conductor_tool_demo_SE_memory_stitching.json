@@ -6,12 +6,12 @@
       {
         "id": "OSC_HFXO",
         "enabled": true,
-        "frequency": "38400000"
+        "frequency": 38400000
       },
       {
         "id": "OSC_LFXO",
-        "enabled": true,
-        "frequency": "32768"
+        "enabled": false,
+        "frequency": 32768
       }
     ]
   },
@@ -22,9 +22,21 @@
         "configured_regions": [
           {
             "region_index": 0,
-            "start_address": "0x00000000", "end_address": "0xFFFFFFFF", "size": "0x20", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 16, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x00000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x20",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 16,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       },
@@ -33,9 +45,21 @@
         "configured_regions": [
           {
             "region_index": 0,
-            "start_address": "0x00000000", "end_address": "0xFFFFFFFF", "size": "0x20", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 17, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x00000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x20",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 17,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           },
           {
             "region_index": 1,
@@ -44,12 +68,12 @@
             "size": "21",
             "addr_trans_en": true,
             "mpe_list": [
-                {
-                    "mpe_id": 0,
-                    "any_master": true,
-                    "master_id": 0,
-                    "permissions": "0xfff"
-                }
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
             ],
             "mul_n_po2": false,
             "ma_trans_en": false,
@@ -62,12 +86,12 @@
             "size": "19",
             "addr_trans_en": true,
             "mpe_list": [
-                {
-                    "mpe_id": 0,
-                    "any_master": true,
-                    "master_id": 0,
-                    "permissions": "0xfff"
-                }
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
             ],
             "mul_n_po2": false,
             "ma_trans_en": false,
@@ -80,9 +104,21 @@
         "configured_regions": [
           {
             "region_index": 0,
-            "start_address": "0x00000000", "end_address": "0xFFFFFFFF", "size": "0x20", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 50, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x00000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x20",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 50,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           },
           {
             "region_index": 1,
@@ -91,12 +127,12 @@
             "size": "21",
             "addr_trans_en": true,
             "mpe_list": [
-                {
-                    "mpe_id": 0,
-                    "any_master": true,
-                    "master_id": 0,
-                    "permissions": "0xfff"
-                }
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
             ],
             "mul_n_po2": false,
             "ma_trans_en": false,
@@ -109,12 +145,12 @@
             "size": "19",
             "addr_trans_en": true,
             "mpe_list": [
-                {
-                    "mpe_id": 0,
-                    "any_master": true,
-                    "master_id": 0,
-                    "permissions": "0xfff"
-                }
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
             ],
             "mul_n_po2": false,
             "ma_trans_en": false,
@@ -127,9 +163,21 @@
         "configured_regions": [
           {
             "region_index": 0,
-            "start_address": "0x00000000", "end_address": "0xFFFFFFFF", "size": "0x20", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 51, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x00000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x20",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 51,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       },
@@ -138,9 +186,21 @@
         "configured_regions": [
           {
             "region_index": 1,
-            "start_address": "0x08000000", "end_address": "0xFFFFFFFF", "size": "0x1B", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 0, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x08000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x1B",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       },
@@ -149,9 +209,21 @@
         "configured_regions": [
           {
             "region_index": 1,
-            "start_address": "0x02000000", "end_address": "0xFFFFFFFF","size": "0x19", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 0, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x02000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x19",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       },
@@ -160,9 +232,21 @@
         "configured_regions": [
           {
             "region_index": 1,
-            "start_address": "0x40000000", "end_address": "0xFFFFFFFF", "size": "0x1D", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 0, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x40000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x1D",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       },
@@ -171,9 +255,21 @@
         "configured_regions": [
           {
             "region_index": 1,
-            "start_address": "0x60000000", "end_address": "0xFFFFFFFF", "size": "0x1D", "addr_trans_en": false,
-            "mpe_list": [{"mpe_id": 0, "any_master": true, "master_id": 0, "permissions": "0xfff"}],
-            "mul_n_po2": false, "ma_trans_en": false, "translation_flags": "0x0"
+            "start_address": "0x60000000",
+            "end_address": "0xFFFFFFFF",
+            "size": "0x1D",
+            "addr_trans_en": false,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       }
@@ -181,5 +277,30 @@
   },
   "pinmux": [],
   "clocks": {},
-  "miscellaneous": []
+  "miscellaneous": [
+    {
+      "id": "LFXO_CAP_CTRL",
+      "value": 8
+    },
+    {
+      "id": "LFXO_GM_CTRL",
+      "value": 15
+    },
+    {
+      "id": "HFXO_CAP_CTRL",
+      "value": 8
+    },
+    {
+      "id": "HFXO_PFET_GM_CTRL",
+      "value": 16
+    },
+    {
+      "id": "HFXO_NFET_GM_CTRL",
+      "value": 16
+    },
+    {
+      "id": "SE_BOOT_INFO",
+      "value": 1
+    }
+  ]
 }
