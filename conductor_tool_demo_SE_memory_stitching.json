@@ -37,6 +37,42 @@
             "mul_n_po2": false,
             "ma_trans_en": false,
             "translation_flags": "0x0"
+          },
+          {
+            "region_index": 1,
+            "start_address": "0x02400000",
+            "end_address": "0x08000000",
+            "size": "21",
+            "addr_trans_en": true,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
+          },
+          {
+            "region_index": 2,
+            "start_address": "0x02600000",
+            "end_address": "0x08200000",
+            "size": "19",
+            "addr_trans_en": true,
+            "mpe_list": [
+              {
+                "mpe_id": 0,
+                "any_master": true,
+                "master_id": 0,
+                "permissions": "0xfff"
+              }
+            ],
+            "mul_n_po2": false,
+            "ma_trans_en": false,
+            "translation_flags": "0x0"
           }
         ]
       },

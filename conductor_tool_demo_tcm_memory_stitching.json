@@ -8,6 +8,15 @@
         "flags": ["load", "boot"],
         "signed": false
     },
+    "HP_Cond_demo": {
+        "binary": "conductor_tool-demo-M55_HP.bin",
+        "version" : "1.0.0",
+        "mramAddress": "0x80120000",
+        "loadAddress": "0x50000000",
+        "cpu_id": "M55_HP",
+        "flags": ["load", "boot"],
+        "signed": false
+    },
     "sram0_data": {
         "binary": "sram0.bin",
         "version" : "1.0.0",
