@@ -34,7 +34,7 @@
         "signed": false
     },
     "DEVICE": {
-        "binary": "conductor_tool_demo_SE_memory_stitching.json",
+        "binary": "app-device-config-memory_stitching.json",
         "version": "1.0.0"
     }
 }
