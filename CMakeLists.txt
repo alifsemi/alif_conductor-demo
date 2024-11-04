@@ -142,6 +142,7 @@ target_sources(corestartup PRIVATE
     ${ALIF_DEVICE_DIR}/common/source/clk.c
     ${ALIF_DEVICE_DIR}/common/source/tgu_M55.c
     ${ALIF_DEVICE_DIR}/common/source/pm.c
+    ${ALIF_DEVICE_DIR}/common/source/tcm_partition.c
 )
 
 target_link_libraries(corestartup PRIVATE
