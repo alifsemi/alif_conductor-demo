@@ -85,6 +85,33 @@ SRAM1.
 
 ![alt text](docs/hp_sram.png)
 
+#### Memory Stitching
+
+Memory stitching in the context of ARM architecture refers to a technique used to optimize the utilization and management of memory in a system. This process involves combining multiple smaller memory regions into a larger, contiguous memory space. This can be particularly useful in embedded systems and applications where memory resources are limited and need to be used efficiently.
+
+The Conductor tool supports memory stitching of SRAM0 and SRAM1. By enabling the "Stitch SRAM0 & SRAM1" switch in the Conductor tool (in the Resources tab top left corner), the user can configure the system to treat SRAM0 and SRAM1 as a single contiguous memory block. The tool takes care of all necessary configurations, including firewall settings, and exports these settings in a JSON file, See [Save & Generate](#save--generate). 
+
+When this configuration file is used during device initialization, the software will see a larger contiguous memory space, which can simplify memory allocation and improve system performance. For detailed instructions on using the SE JSON file, refer to the [AUGD0005 Alif Security Toolkit User Guide.](https://alifsemi.com/support/software-tools/ensemble/)
+
+##### Steps to Enable Memory Stitching Using the Conductor Tool:
+1. **Access the Conductor Tool**: Open the [Conductor tool](https://conductor.alifsemi.com/), which is used for configuring memory settings and other resources in your device.
+
+2. **Enable Memory Stitching**:
+- Navigate to the Resources tab within the Conductor tool.
+- Locate the switch labeled "Stitch SRAM0 & SRAM1." (in the Resources tab top left corner)
+- Enable this switch to start the memory stitching process.
+
+3. **Automatic Configuration**:
+- Once the switch is enabled, the Conductor tool will automatically configure all necessary firewall settings in the background. This ensures that the transition between SRAM0 and SRAM1 is seamless and secure.
+
+4. **Export Configuration**:
+- After configuring the settings, export the configuration as a JSON file. This is part of the Secure Enclave (SE) configuration process.
+- The SE configuration JSON file will include all the settings required for memory stitching, ensuring that when the device is initialized, the software will recognize SRAM0 and SRAM1 as a single contiguous memory block.
+
+5. **Using the SE JSON File**:
+- Refer to the _CONDUCTOR Tool Flow_ section in the [AUGD0005 Alif Security Toolkit User Guide](https://alifsemi.com/support/software-tools/ensemble/) for detailed instructions on how to utilize the SE JSON file.
+- Follow the steps outlined in the guide to apply the configurations during device initialization.
+
 ### Available Peripherals
 This is the place where you can assign peripherals to processors and set their access rights. For this example, there is no need to do this.
 
