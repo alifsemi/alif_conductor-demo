@@ -21,20 +21,40 @@ Both cores must use the same run mode.
 ```
 mkdir build_hp
 cd build_hp
+```
+### Linux and macOS with Apple M Chip
+```
 cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1
 OR
 cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
+```
+### Windows
+```
+cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -G "Ninja"
+OR
+cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
+ninja
 ```
 
 ## Build Conductor Tool demo for High-Efficiency M55 (M55_HE)
 ```
 mkdir build_he
 cd build_he
+```
+### Linux and macOS with Apple M Chip
+```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1
 OR
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
+```
+### Windows
+```
+cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -G "Ninja"
+OR
+cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
+ninja
 ```
 
 ## Build Conductor demo with memory stitching
