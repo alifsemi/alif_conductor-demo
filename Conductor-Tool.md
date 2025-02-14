@@ -30,9 +30,10 @@ Tools:
 2. Arm GNU Toolchain from https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads. For Linux, select the archive for x86_64 Linux hosted cross toolchains: AArch
     bare-metal target category. Using the latest stable version is always recommended. For
     Windows, select from Windows -> AArch32 bare-metal target category.
-3. CMake, download and install from https://cmake.org/download/
-4. Git, download and install from https://git-scm.com/download
-5. Your favorite IDE or text editor. User guides for doing bare metal design with Keil MDK and VS
+3. If using Windows for compiling, Ninja build system is needed. Install Ninja from https://github.com/ninja-build/ninja/releases
+4. CMake, download and install from https://cmake.org/download/
+5. Git, download and install from https://git-scm.com/download
+6. Your favorite IDE or text editor. User guides for doing bare metal design with Keil MDK and VS
     Code/GCC are available on the User Guides page of the Alif website at
     https://alifsemi.com/support/application-notes-user-guides/ensemble/
 
@@ -89,7 +90,7 @@ SRAM1.
 
 Memory stitching in the context of ARM architecture refers to a technique used to optimize the utilization and management of memory in a system. This process involves combining multiple smaller memory regions into a larger, contiguous memory space. This can be particularly useful in embedded systems and applications where memory resources are limited and need to be used efficiently.
 
-The Conductor tool supports memory stitching of SRAM0 and SRAM1. By enabling the "Stitch SRAM0 & SRAM1" switch in the Conductor tool (in the Resources tab top left corner), the user can configure the system to treat SRAM0 and SRAM1 as a single contiguous memory block. The tool takes care of all necessary configurations, including firewall settings, and exports these settings in a JSON file, See [Save & Generate](#save--generate). 
+The Conductor tool supports memory stitching of SRAM0 and SRAM1. By enabling the "Stitch SRAM0 & SRAM1" switch in the Conductor tool (in the Resources tab top left corner), the user can configure the system to treat SRAM0 and SRAM1 as a single contiguous memory block. The tool takes care of all necessary configurations, including firewall settings, and exports these settings in a JSON file, See [Save & Generate](#save--generate).
 
 When this configuration file is used during device initialization, the software will see a larger contiguous memory space, which can simplify memory allocation and improve system performance. For detailed instructions on using the SE JSON file, refer to the [AUGD0005 Alif Security Toolkit User Guide.](https://alifsemi.com/support/software-tools/ensemble/)
 
