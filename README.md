@@ -63,12 +63,24 @@ Example:
 ```
 mkdir build_he
 cd build_he
+```
+### Linux and macOS with Apple M Chip
+```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON
 OR
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON
 make
+```
+### Windows
+```
+cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON -G "Ninja"
+OR
+cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON -G "Ninja"
+make
+```
 
 Generate ATOC with command:
+```
 ./app-gen-toc --filename build/config/conductor_tool_demo_mram_memory_stitching.json
 OR
 ./app-gen-toc --filename build/config/conductor_tool_demo_tcm_memory_stitching.json
