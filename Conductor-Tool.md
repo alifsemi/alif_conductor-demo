@@ -195,7 +195,7 @@ the files in generated zip file. Include pins.h in your project and call
 
 Please read README.md how to build and use application. You should be able to build and program the
 Conductor tool demo application with help from readme.md and “Alif Security Toolkit User Guide”.
-Please build the XIP version and program it to Alif Devkit. “Ensemble B1 DevKit” introduces how to use
+Please build the XIP version and program it to Alif Devkit. “Ensemble DevKit User Guide” introduces how to use
 and connect UART2 and UART4 where you can see the program output. The M55_HE Core prints to
 UART 2 and the M55_HP core prints to UART 4. After the UARTs are connected, please push the reset
 button.
