@@ -8,7 +8,7 @@
 # *
 # */
 
-cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.19.0 FATAL_ERROR)
 
 # Get rid of warnings when running cmake ..
 cmake_policy(SET CMP0123 NEW)
