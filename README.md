@@ -25,17 +25,37 @@ cd build_hp
 ### Linux and macOS with Apple M Chip
 ```
 cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1
+```
 OR
+```
 cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
 ```
-### Windows
+
+## Build for Windows
+In order to successfully build in Windows, you need ***Ninja build system***. You can install it from [here](https://github.com/ninja-build/ninja/releases)
+
+You will also need ***gcc compiler***. You can install it from [here](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads). Choose 13.2.Rel1 and Windows AArch32 bare-metal target (arm-none-eabi). Remember to add to path.
+
+Install CMake from [here](https://cmake.org/)
+
+
+Now you can use CMake and generator Ninja 
+
+***NOTE*** Make sure to call in clean build folder
+
+Configure build using CMake
+
 ```
 cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -G "Ninja"
-OR
-cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
-ninja
 ```
+OR
+
+```
+cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
+```
+
+Then build with Ninja by typing ***ninja***
 
 ## Build Conductor Tool demo for High-Efficiency M55 (M55_HE)
 ```
@@ -45,14 +65,18 @@ cd build_he
 ### Linux and macOS with Apple M Chip
 ```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1
+```
 OR
+```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
 ```
 ### Windows
 ```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -G "Ninja"
+```
 OR
+```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
 ninja
 ```
@@ -67,14 +91,18 @@ cd build_he
 ### Linux and macOS with Apple M Chip
 ```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON
+```
 OR
+```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON
 make
 ```
 ### Windows
 ```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON -G "Ninja"
+```
 OR
+```
 cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON -G "Ninja"
 make
 ```
@@ -82,7 +110,9 @@ make
 Generate ATOC with command:
 ```
 ./app-gen-toc --filename build/config/conductor_tool_demo_mram_memory_stitching.json
+```
 OR
+```
 ./app-gen-toc --filename build/config/conductor_tool_demo_tcm_memory_stitching.json
 ```
 
