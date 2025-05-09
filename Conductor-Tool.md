@@ -233,15 +233,8 @@ accessed only by HP core. We also changed HP and HE core clocks.<br>
 Now let’s apply the Conductor tool output with option 1, Secure Enclave flow. Go to the Conductor tool
 and choose "Generate SE Config File" and give name for example "dct_demo_SE", it will be saved as
 dct_demo_SE.json.<br><br>
-Starting from **SE release 1.91** you need to manually change firewall `raz` (ReadAsZero) and `err` values in file dct_demo_SE.json.
-If `err` is true, then read/write will cause a fault. If it is false then read will return either 0x00000000 (if `raz` is true)
-or 0xdeaddead (if `raz`if false).
-These flags are set by Conductor tool and by default they are set so that accessing memory which you are not allowed
-will generate a fault. To demonstrate this, change firewall->firewall_components with `"component_id": 4,` (4 is HE core) `raz` and `err` as false.
-Then change `"component_id": 5,` (5 is HP core) `raz` as true and `err` as false.<br><br>
-Copy this json-file to SE tools folder `app-release-exec-linux/build/config`. Add the
-following lines to dct_demo_mram.json ( in same folder as dct_demo_SE.json ) like instructed in
-document “Alif Security Toolkit User Guide” after sram1_data block:
+
+Copy this json-file to SE tools folder app-release-exec-linux/build/config. Edit the name of the file referenced in the "DEVICE" section after the sram1_data block from the default "app-device-config.json" to "dct_demo_mram.json" like instructed in the “Alif Security Toolkit User Guide”
 
 ```
 "DEVICE": {
@@ -251,9 +244,9 @@ document “Alif Security Toolkit User Guide” after sram1_data block:
 ```
 
 Build both cores and program to Alif Devkit. Now output should show that clocks are changed, and
-memory reading failed (HE read gave 0xdeaddead, and HP gave 0x00000000) instead of the sram0/1 binary content. This proved that
+memory reading failed (HE read gave 0xdeaddead, and HP read gave 0xdeaddead) instead of the sram0/1 binary content. This proved that
 HE core can’t access SRAM1 and HP core can’t access SRAM0. Also, clocks should have changed, 80Mhz
-to HE core and 200Mhz to HP core like we set with the Conductor tool.<br>
+to HE core and 200Mhz to HP core like we set with the Conductor tool.<br><br>
 The Conductor tool configures UARTs with pinmux. You can test this by commenting out the line:
 
 `init_system();`
