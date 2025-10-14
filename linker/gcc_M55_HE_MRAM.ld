@@ -26,7 +26,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#include "app_mem_regions.h"
 /*
 * M55-HE application specific settings. These need to changed based on
 * application and system memory requirements
@@ -44,8 +44,8 @@ MEMORY
 {
   ITCM (rwx) : ORIGIN = 0x00000000, LENGTH = 0x00040000  /* 256 KB per core at the start of ITCM */
   DTCM (rwx) : ORIGIN = 0x20000000, LENGTH = 0x00040000  /* 256 KB per core at the start of DTCM */
-  SRAM0 (rwx) : ORIGIN = 0x02000000, LENGTH = 0x00040000  /* 256kB */
-  SRAM1 (rwx) : ORIGIN = 0x08000000, LENGTH = 0x00040000  /* 256kB */
+  SRAM0 (rwx) : ORIGIN = APP_SRAM0_BASE, LENGTH = 0x00040000  /* 256kB */
+  SRAM1 (rwx) : ORIGIN = APP_SRAM1_BASE, LENGTH = 0x00040000  /* 256kB */
   MRAM  (rx)  : ORIGIN = 0x80000000, LENGTH = 0x00100000  /* 1MB */
 }
 
@@ -110,11 +110,6 @@ SECTIONS
     /* Add each additional bss section here */
     LONG (ADDR(.bss))
     LONG (SIZEOF(.bss)/4)
-    /*
-    LONG (ADDR(.bss.at_sram0))
-    LONG (SIZEOF(.bss.at_sram0)/4)
-    LONG (ADDR(.bss.at_sram1))
-    LONG (SIZEOF(.bss.at_sram1)/4)*/
     __zero_table_end__ = .;
   } > MRAM
 
@@ -163,15 +158,6 @@ SECTIONS
   so they must not be zeroed. Other .bss areas are zeroed.
   */
 
-/*
-  .bss.at_sram0 (NOLOAD) : ALIGN(8)
-  {
-  } > SRAM0
-
-  .bss.at_sram1 (NOLOAD) : ALIGN(8)
-  {
-  } > SRAM1
-*/
   /*
    * Primary bss section
    * Note! .bss.noinit areas are not zero initalized.

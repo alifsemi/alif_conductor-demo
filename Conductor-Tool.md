@@ -15,12 +15,13 @@ Alif Conductor tool can be found from https://conductor.alifsemi.com/
 
 ## Required tools and prequisites
 
-Read “Ensemble DevKit User Guide” (https://alifsemi.com/support/kits/ensemble-devkit-gen2/) and
+Read “Ensemble DevKit User Guide” (https://alifsemi.com/support/kits/ensemble-e7devkit/) and
 “Alif Security Toolkit User Guide” (https://alifsemi.com/support/software-tools/ensemble/ ) to get
 understanding about the devkit and toolkit flow.
-The “E7 Datasheet” (https://alifsemi.com/support/kits/ensemble-devkit-gen2/) is a good reference to
+The “E7 Datasheet” (https://alifsemi.com/support/kits/ensemble-e7devkit/) is a good reference to
 have when reading the Pins chapter.
-The "E7 Hardware Reference Manual" (https://alifsemi.com/support/kits/ensemble-devkit-gen2/) is good to have around all the time, especially when checking clocks.
+The "E7 Hardware Reference Manual" (https://alifsemi.com/support/kits/ensemble-e7devkit/) is good to have around all the time, especially when checking clocks.
+Equivalent documents for E8 can be found here: (https://alifsemi.com/support/kits/ensemble-e8devkit/)
 
 Tools:
 
@@ -38,6 +39,8 @@ Tools:
     https://alifsemi.com/support/application-notes-user-guides/ensemble/
 
 ## Step-by-step guide to create a Conductor Demo Application configuration for Ensemble E7
+
+NOTE! Same conductor tool flow applies for DevKit-e8.
 
 Open https://conductor.alifsemi.com/
 
@@ -60,7 +63,7 @@ configurations for the existing Alif Ensemble E7 DevKit Gen 2 board for a Conduc
 ![alt text](docs/start_board.png)
 
 
-From the upper left column, choose “DK-E7 (DevKit-E7 Gen 2)” under “Select Board”. E7 has two Cortex-A32 cores, two Cortex-M55 cores and two Ethos-U55 Neural Processing Units. Press the blue “START”
+From the upper left column, choose “Ensemble E7 DevKit” under “Select Board”. E7 has two Cortex-A32 cores, two Cortex-M55 cores and two Ethos-U55 Neural Processing Units. Press the blue “START”
 button found on top. This will take to the “Resources” tab.
 
 ### Resources
@@ -87,6 +90,8 @@ SRAM1.
 ![alt text](docs/hp_sram.png)
 
 #### Memory Stitching
+
+NOTE! Only applicable with Devkit-7 and AppKit-e7. DevKit-e8 has linear SRAMs by default.
 
 Memory stitching in the context of ARM architecture refers to a technique used to optimize the utilization and management of memory in a system. This process involves combining multiple smaller memory regions into a larger, contiguous memory space. This can be particularly useful in embedded systems and applications where memory resources are limited and need to be used efficiently.
 
@@ -195,7 +200,7 @@ the files in generated zip file. Include pins.h in your project and call
 
 Please read README.md how to build and use application. You should be able to build and program the
 Conductor tool demo application with help from readme.md and “Alif Security Toolkit User Guide”.
-Please build the XIP version and program it to Alif Devkit. “Ensemble DevKit User Guide” introduces how to use
+Please build the application and program it to Alif Devkit. “Ensemble DevKit User Guide” introduces how to use
 and connect UART2 and UART4 where you can see the program output. The M55_HE Core prints to
 UART 2 and the M55_HP core prints to UART 4. After the UARTs are connected, please push the reset
 button.

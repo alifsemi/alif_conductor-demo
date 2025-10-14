@@ -13,14 +13,14 @@ SET(CMAKE_LINKER                    arm-none-eabi-ld)
 set(CMAKE_CROSSCOMPILING            true)
 set(CMAKE_SYSTEM_NAME               Generic)
 
-if ("${ENSEMBLE_CORE}" STREQUAL "M55_HE" OR "${ENSEMBLE_CORE}" STREQUAL "M55_HP")
+if ("${ALIF_CORE}" STREQUAL "M55_HE" OR "${ALIF_CORE}" STREQUAL "M55_HP")
     set(CMAKE_SYSTEM_PROCESSOR          "cortex-m55")
     set(CMAKE_C_FLAGS                   "-mcpu=cortex-m55")
     set(CMAKE_CXX_FLAGS                 "-mcpu=cortex-m55")
     set(CMAKE_ASM_CPU_FLAG              cortex-m55)
     set(CPU_COMPILE_DEF                 CPU_CORTEX_M55)
 endif()
-if ("${ENSEMBLE_CORE}" STREQUAL "A32")
+if ("${ALIF_CORE}" STREQUAL "A32")
     set(CMAKE_SYSTEM_PROCESSOR          "cortex-a32")
     set(CMAKE_C_FLAGS                   "-mcpu=cortex-a32")
     set(CMAKE_CXX_FLAGS                 "-mcpu=cortex-a32")
@@ -35,13 +35,7 @@ set(BINARY_EXTENSION                ".elf")
 find_program(CMAKE_C_COMPILER       arm-none-eabi-gcc)
 find_program(CMAKE_CXX_COMPILER     arm-none-eabi-g++)
 
-if (DEFINED XIP)
-    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/gcc_${ENSEMBLE_CORE}_MRAM.ld)
-    set (XIP ${XIP}) # To avoid CMake warning about unused XIP variable
-else()
-    # Default is TCM
-    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/gcc_${ENSEMBLE_CORE}_TCM.ld)
-endif()
+set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/gcc_${ALIF_CORE}_MRAM.ld)
 
 set(CMAKE_C_FLAGS_DEBUG            "-O0 -g"          CACHE STRING "Flags used by the C compiler during DEBUG builds.")
 set(CMAKE_C_FLAGS_MINSIZEREL       "-Os -g -DNDEBUG" CACHE STRING "Flags used by the C compiler during MINSIZEREL builds.")
@@ -55,13 +49,13 @@ add_compile_options(
     -mfloat-abi=hard
 )
 
-if ("${ENSEMBLE_CORE}" STREQUAL "M55_HE" OR "${ENSEMBLE_CORE}" STREQUAL "M55_HP")
+if ("${ALIF_CORE}" STREQUAL "M55_HE" OR "${ALIF_CORE}" STREQUAL "M55_HP")
     add_compile_options(
         -mthumb
         -mlittle-endian
     )
 endif()
-if ("${ENSEMBLE_CORE}" STREQUAL "A32")
+if ("${ALIF_CORE}" STREQUAL "A32")
     add_compile_options(
         -mfpu=neon-fp-armv8
         -marm
