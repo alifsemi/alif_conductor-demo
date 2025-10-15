@@ -36,24 +36,19 @@ set(ENSEMBLE_BOARD "devkit_gen2" CACHE STRING "Set ENSEMBLE_BOARD to: devkit_gen
 if ((TARGET_BOARD STREQUAL "DevKit-e8") OR (TARGET_BOARD STREQUAL "DevKit-e4")) # Add other Devkits and AppKits which are Ensemble devices with Striping support
     set(ALIF_DEVICE_SKU "AE822FA0E5597" CACHE STRING "" FORCE)
     add_compile_definitions(ENSEMBLE_SOC_GEN2)
-    set(ENSEMBLE_BOARD "devkit_e8" CACHE STRING "")
 elseif ((TARGET_BOARD STREQUAL "AppKit-e7") OR (TARGET_BOARD STREQUAL "DevKit-e7")) # Add other Devkit and AppKits which are Ensemble devices
     set(ALIF_DEVICE_SKU "AE722F80F55D5" CACHE STRING "" FORCE)
-    if (TARGET_BOARD STREQUAL "AppKit-e7")
-        set(ENSEMBLE_BOARD "appkit_gen2" CACHE STRING "")
-    endif()
 elseif (TARGET_BOARD STREQUAL "DevKit-e1c") # Add other Devkit and AppKits which are Balletto devices
     set(ALIF_DEVICE_SKU "AE1C1F4051920" CACHE STRING "" FORCE)
     add_compile_definitions(ENSEMBLE_SOC_E1C)
-    set(ENSEMBLE_BOARD "devkit_e1c" CACHE STRING "")
 endif()
 
 set(ALIF_COMMON_UTILS_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/common_app_utils)
-set(ALIF_BOARD_DIR              ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/Board)
 set(ALIF_CMSIS_PACK_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/cmsis-dfp)
 set(ALIF_CMSIS_DIR              ${ALIF_CMSIS_PACK_DIR}/Alif_CMSIS)
 set(ALIF_DEVICE_DIR             ${ALIF_CMSIS_PACK_DIR}/Device)
 set(ALIF_DRIVERS_DIR            ${ALIF_CMSIS_PACK_DIR}/drivers)
+set(ALIF_BOARDS_DIR             ${ALIF_CMSIS_PACK_DIR}/Boards)
 
 # Set up the project
 project(conductor_tool-demo-${ALIF_CORE}
@@ -86,27 +81,6 @@ set(MEMORY_STITCHING OFF CACHE BOOL "Run memory stitching example.")
 message(STATUS "Memory stitching: ${MEMORY_STITCHING}")
 if (MEMORY_STITCHING)
     add_compile_definitions(MEMORY_STITCHING)
-endif()
-
-message(STATUS "Using Alif Ensemble board: ${ENSEMBLE_BOARD}")
-if (${ENSEMBLE_BOARD} STREQUAL "devkit_gen2")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=4
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "appkit_gen2")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=5
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "devkit_e1c")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=6
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "devkit_e8")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=7
-    )
-else()
-    message(FATAL_ERROR "Unsupported ENSEMBLE_BOARD value!")
 endif()
 
 add_executable(${PROJECT_NAME})
@@ -147,14 +121,23 @@ target_include_directories(ensemblecmsis_interface INTERFACE
     ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/config
     ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/include
     ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/include/${ALIF_CORE_STRING}
+    ${ALIF_CMSIS_PACK_DIR}/se_services/include
+    ${ALIF_CMSIS_PACK_DIR}/se_services/port/include
 )
 
 add_library(ensembleboard_interface INTERFACE)
 target_include_directories(ensembleboard_interface INTERFACE
-    ${ALIF_BOARD_DIR}
-    ${ALIF_BOARD_DIR}/${ENSEMBLE_BOARD}
-    ${ALIF_DEVICE_DIR}/common/config
+    ${ALIF_BOARDS_DIR}
+    ${ALIF_BOARDS_DIR}/${TARGET_BOARD}
+    ${ALIF_CMSIS_PACK_DIR}/libs/board_config/
 )
+
+# NO real support from BSP, use this as temporary support
+# TODO: Update when Alif BSP has support
+if (TARGET_BOARD STREQUAL "AppKit-e7")
+target_include_directories(ensembleboard_interface INTERFACE
+    ${ALIF_BOARDS_DIR}/AppKit-e7-aiml/Layers/M55_HE/ConductorTool)
+endif()
 
 ###################################################
 ##  Add core startup files                       ##
@@ -188,11 +171,18 @@ target_link_libraries(corestartup PRIVATE
 add_library(ensemblecmsis)
 
 target_sources(ensemblecmsis PRIVATE
-    ${ALIF_BOARD_DIR}/${ENSEMBLE_BOARD}/board_init.c
+    ${ALIF_CMSIS_PACK_DIR}/libs/board_config/board_config.c
     ${ALIF_CMSIS_DIR}/Source/Driver_USART.c
     ${ALIF_DRIVERS_DIR}/source/uart.c
     ${ALIF_DRIVERS_DIR}/source/pinconf.c
+    ${ALIF_DRIVERS_DIR}/source/mhu_driver.c
+    ${ALIF_DRIVERS_DIR}/source/mhu_receiver.c
+    ${ALIF_DRIVERS_DIR}/source/mhu_sender.c
     ${ALIF_CMSIS_DIR}/Source/Driver_IO.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/port/se_services_port.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/source/services_host_handler.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/source/services_host_clocks.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/source/services_host_maintenance.c
 )
 
 set_werror_implicit_function_declaration(ensemblecmsis)

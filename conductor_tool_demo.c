@@ -9,7 +9,7 @@
  */
 
 #include "uart_tracelib.h"
-#include "board.h"
+#include "board_config.h"
 #include "Driver_IO.h"
 #include "pinconf.h"
 #include "sys_utils.h"
@@ -259,7 +259,8 @@ static void uart_callback(uint32_t event)
 static void init_system()
 {
     mpu_init(); // pull mpu in
-    BOARD_Pinmux_Init();
+    board_pins_config();
+    board_gpios_config();
 }
 
 /*  ESCLK_SEL Register: 0x10, R/W, Clock Select Register for M55-HP and M55-HE
@@ -289,8 +290,6 @@ void print_clocks()
         hp_clk = 200;
         break;
     case 2:
-        hp_clk = 300;
-        break;
     case 3:
     default:
         hp_clk = 400;
@@ -300,14 +299,10 @@ void print_clocks()
     switch ((*clk_reg) & 0x30)
     {
     case 0x00:
-        he_clk = 60;
-        break;
     case 0x10:
         he_clk = 80;
         break;
     case 0x20:
-        he_clk = 120;
-        break;
     case 0x30:
     default:
         he_clk = 160;
