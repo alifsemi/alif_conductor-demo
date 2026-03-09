@@ -94,6 +94,9 @@ Possible options: AppKit-e7, DevKit-e4, DevKit-e7 and DevKit-e8
 Use [conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) for AppKit-e7 and DevKit-e7.
 Use [conductor_tool_demo_mram_e8.json](conductor_tool_demo_mram_e8.json) for DevKit-e4 and DevKit-e8.
 
+> [!NOTE]
+> Needs SETOOLS v1.110.0 or later for flashing the application to DevKit-e4 and DevKit-e8.
+
 ## Flashing the test application
 In the root there is SETOOLS config file sfor this application [conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) and
 [conductor_tool_demo_mram_e8.json](conductor_tool_demo_mram_e8.json) which can be used for ISP with the Alif Security Toolkit.
