@@ -13,79 +13,74 @@ cmake_minimum_required(VERSION 3.19.0 FATAL_ERROR)
 # Get rid of warnings when running cmake ..
 cmake_policy(SET CMP0123 NEW)
 
-set(ENSEMBLE_CORE "M55_HE" CACHE STRING "Set ENSEMBLE_CORE to: M55_HE or M55_HP.")
-message(STATUS "Using Alif Ensemble core: ${ENSEMBLE_CORE}")
+set(ALIF_CORE "M55_HE" CACHE STRING "Set ALIF_CORE to: M55_HE or M55_HP.")
+message(STATUS "Using Alif core: ${ALIF_CORE}")
 
-# These can be also set via command line
+# Set board. Can be given with cmake command, for example: -DTARGET_BOARD=DevKit-e8
+set(TARGET_BOARD  "DevKit-e7" CACHE STRING "Alif Board type")
+set_property(CACHE TARGET_BOARD PROPERTY STRINGS "AppKit-e7" "DevKit-e1c" "DevKit-e4" "DevKit-e7" "DevKit-e8")
+
+# Don't change this it is resolved via ALIF_BOARD
+set(ALIF_DEVICE_SKU "AE722F80F55D5" CACHE STRING "Specify Alif SKU part number")
+set_property(CACHE ALIF_DEVICE_SKU PROPERTY STRINGS "AE1C1F4051920" "AE722F80F55D5" "AE822FA0E5597")
+
+ # Sanity check TARGET_BOARD
+if (NOT ((TARGET_BOARD STREQUAL "AppKit-e7") OR (TARGET_BOARD STREQUAL "DevKit-e1c") OR (TARGET_BOARD STREQUAL "DevKit-e4") OR (TARGET_BOARD STREQUAL "DevKit-e7")
+    OR (TARGET_BOARD STREQUAL "DevKit-e8")))
+    message(FATAL_ERROR "Possible TARGET_BOARD values are: AppKit-e7, DevKit-e1c, DevKit-e4, DevKit-e7 and DevKit-e8 but given value was ${TARGET_BOARD}")
+endif()
+
+set(ENSEMBLE_BOARD "devkit_gen2" CACHE STRING "Set ENSEMBLE_BOARD to: devkit_gen2, appkit_gen2, devkit_e8 or devkit_e1c.")
+
+# resolve correct SKU
+if ((TARGET_BOARD STREQUAL "DevKit-e8") OR (TARGET_BOARD STREQUAL "DevKit-e4")) # Add other Devkits and AppKits which are Ensemble devices with Striping support
+    set(ALIF_DEVICE_SKU "AE822FA0E5597" CACHE STRING "" FORCE)
+    add_compile_definitions(ENSEMBLE_SOC_GEN2)
+elseif ((TARGET_BOARD STREQUAL "AppKit-e7") OR (TARGET_BOARD STREQUAL "DevKit-e7")) # Add other Devkit and AppKits which are Ensemble devices
+    set(ALIF_DEVICE_SKU "AE722F80F55D5" CACHE STRING "" FORCE)
+elseif (TARGET_BOARD STREQUAL "DevKit-e1c") # Add other Devkit and AppKits which are Balletto devices
+    set(ALIF_DEVICE_SKU "AE1C1F4051920" CACHE STRING "" FORCE)
+    add_compile_definitions(ENSEMBLE_SOC_E1C)
+endif()
+
 set(ALIF_COMMON_UTILS_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/common_app_utils)
-set(ALIF_BOARD_DIR              ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/Board)
-set(ALIF_ENSEMBLE_DIR           ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/Ensemble)
-set(ALIF_DRIVER_DIR             ${ALIF_ENSEMBLE_DIR}/Alif_CMSIS)
-set(ALIF_DEVICE_DIR             ${ALIF_ENSEMBLE_DIR}/Device)
-set(ALIF_ENSEMBLE_DRIVERS_DIR   ${ALIF_ENSEMBLE_DIR}/drivers)
-set(ALIF_RTE_DIR                ${ALIF_DEVICE_DIR}/E7/AE722F80F55D5XX)
+set(ALIF_CMSIS_PACK_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/packs/AlifSemiconductor/cmsis-dfp)
+set(ALIF_CMSIS_DIR              ${ALIF_CMSIS_PACK_DIR}/Alif_CMSIS)
+set(ALIF_DEVICE_DIR             ${ALIF_CMSIS_PACK_DIR}/Device)
+set(ALIF_DRIVERS_DIR            ${ALIF_CMSIS_PACK_DIR}/drivers)
+set(ALIF_BOARDS_DIR             ${ALIF_CMSIS_PACK_DIR}/Boards)
 
 # Set up the project
-project(conductor_tool-demo-${ENSEMBLE_CORE}
+project(conductor_tool-demo-${ALIF_CORE}
     VERSION 1.0.0
     LANGUAGES C CXX ASM
 )
 
-if (${ENSEMBLE_CORE} STREQUAL "M55_HP")
+if (${ALIF_CORE} STREQUAL "M55_HP")
+    set(ALIF_CORE_STRING "rtss_hp")
     add_compile_definitions(
-        _RTE_
         M55_HP
+        RTSS_HP
     )
-elseif (${ENSEMBLE_CORE} STREQUAL "M55_HE")
+elseif (${ALIF_CORE} STREQUAL "M55_HE")
+    set(ALIF_CORE_STRING "rtss_he")
     add_compile_definitions(
-        _RTE_
         M55_HE
+        RTSS_HE
     )
 else()
-    message(FATAL_ERROR "Unsupported ENSEMBLE_CORE value!")
+    message(FATAL_ERROR "Unsupported ALIF_CORE value!")
 endif()
 
-if (DEFINED XIP)
-    add_compile_definitions(
-        XIP_MODE
-    )
-endif()
+add_compile_definitions(
+    _RTE_
+    XIP_MODE
+)
 
 set(MEMORY_STITCHING OFF CACHE BOOL "Run memory stitching example.")
 message(STATUS "Memory stitching: ${MEMORY_STITCHING}")
 if (MEMORY_STITCHING)
     add_compile_definitions(MEMORY_STITCHING)
-endif()
-
-set(ENSEMBLE_BOARD "devkit_gen2" CACHE STRING "Set ENSEMBLE_BOARD to: devkit_gen1/2, appkit_alpha1/2, appkit_gen2 or devkit_b0_cob.")
-message(STATUS "Using Alif Ensemble board: ${ENSEMBLE_BOARD}")
-
-if (${ENSEMBLE_BOARD} STREQUAL "devkit_gen1")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=0
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "appkit_alpha1")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=1
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "appkit_alpha2")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=2
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "devkit_b0_cob")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=3
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "devkit_gen2")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=4
-    )
-elseif (${ENSEMBLE_BOARD} STREQUAL "appkit_gen2")
-    add_compile_definitions(
-        BOARD_ALIF_DEVKIT_VARIANT=5
-    )
-else()
-    message(FATAL_ERROR "Unsupported ENSEMBLE_BOARD value!")
 endif()
 
 add_executable(${PROJECT_NAME})
@@ -110,25 +105,39 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 add_library(armcmsis_interface INTERFACE)
 target_include_directories(armcmsis_interface INTERFACE
-        ${CMAKE_CURRENT_SOURCE_DIR}/packs/ARM/CMSIS/5.9.0/CMSIS/Driver/Include
-        ${CMAKE_CURRENT_SOURCE_DIR}/packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+        ${CMAKE_CURRENT_SOURCE_DIR}/packs/ARM/CMSIS/CMSIS/Driver/Include
+        ${CMAKE_CURRENT_SOURCE_DIR}/packs/ARM/CMSIS/CMSIS/Core/Include
 )
 
 add_library(ensemblecmsis_interface INTERFACE)
 target_include_directories(ensemblecmsis_interface INTERFACE
-    ${ALIF_DRIVER_DIR}/Include
-    ${ALIF_ENSEMBLE_DRIVERS_DIR}/include
-    ${ALIF_DEVICE_DIR}/common/include
-    ${ALIF_DEVICE_DIR}/core/${ENSEMBLE_CORE}/include
-    ${ALIF_DEVICE_DIR}/core/${ENSEMBLE_CORE}/config
+    ${ALIF_CMSIS_DIR}/Include
+    ${ALIF_CMSIS_DIR}/Include/config
+    ${ALIF_DRIVERS_DIR}/include
+    ${ALIF_DEVICE_DIR}/system/include
+    ${ALIF_DEVICE_DIR}/core/common/config
+    ${ALIF_DEVICE_DIR}/core/common/include
+    ${ALIF_DEVICE_DIR}/core/${ALIF_CORE_STRING}/config
+    ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/config
+    ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/include
+    ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/include/${ALIF_CORE_STRING}
+    ${ALIF_CMSIS_PACK_DIR}/se_services/include
+    ${ALIF_CMSIS_PACK_DIR}/se_services/port/include
 )
 
 add_library(ensembleboard_interface INTERFACE)
 target_include_directories(ensembleboard_interface INTERFACE
-    ${ALIF_BOARD_DIR}
-    ${ALIF_BOARD_DIR}/${ENSEMBLE_BOARD}
-    ${ALIF_DEVICE_DIR}/common/config
+    ${ALIF_BOARDS_DIR}
+    ${ALIF_BOARDS_DIR}/${TARGET_BOARD}
+    ${ALIF_CMSIS_PACK_DIR}/libs/board_config/
 )
+
+# NO real support from BSP, use this as temporary support
+# TODO: Update when Alif BSP has support
+if (TARGET_BOARD STREQUAL "AppKit-e7")
+target_include_directories(ensembleboard_interface INTERFACE
+    ${ALIF_BOARDS_DIR}/AppKit-e7-aiml/Layers/M55_HE/ConductorTool)
+endif()
 
 ###################################################
 ##  Add core startup files                       ##
@@ -136,13 +145,16 @@ target_include_directories(ensembleboard_interface INTERFACE
 add_library(corestartup STATIC)
 target_sources(corestartup PRIVATE
     RTE/mpu_M55.c     # Own variant of MPU needed for memory stitching
-    ${ALIF_DEVICE_DIR}/core/${ENSEMBLE_CORE}/source/startup_${ENSEMBLE_CORE}.c
-    ${ALIF_DEVICE_DIR}/common/source/system_M55.c
-    ${ALIF_DEVICE_DIR}/common/source/system_utils.c
-    ${ALIF_DEVICE_DIR}/common/source/clk.c
-    ${ALIF_DEVICE_DIR}/common/source/tgu_M55.c
-    ${ALIF_DEVICE_DIR}/common/source/pm.c
-    ${ALIF_DEVICE_DIR}/common/source/tcm_partition.c
+    ${ALIF_DEVICE_DIR}/core/common/source/cache.c
+    ${ALIF_DEVICE_DIR}/core/common/source/mpu.c
+    ${ALIF_DEVICE_DIR}/core/common/source/pm.c
+    ${ALIF_DEVICE_DIR}/core/common/source/sau_tcm_ns_setup.c
+    ${ALIF_DEVICE_DIR}/core/common/source/startup.c
+    ${ALIF_DEVICE_DIR}/core/common/source/system.c
+    ${ALIF_DEVICE_DIR}/core/common/source/tgu.c
+    ${ALIF_DEVICE_DIR}/core/common/source/vectors.c
+    ${ALIF_DEVICE_DIR}/system/source/sys_utils.c
+    ${ALIF_DEVICE_DIR}/system/source/sys_clocks.c
 )
 
 target_link_libraries(corestartup PRIVATE
@@ -159,11 +171,18 @@ target_link_libraries(corestartup PRIVATE
 add_library(ensemblecmsis)
 
 target_sources(ensemblecmsis PRIVATE
-    ${ALIF_BOARD_DIR}/${ENSEMBLE_BOARD}/board_init.c
-    ${ALIF_DRIVER_DIR}/Source/Driver_USART.c
-    ${ALIF_ENSEMBLE_DRIVERS_DIR}/source/uart.c
-    ${ALIF_ENSEMBLE_DRIVERS_DIR}/source/pinconf.c
-    ${ALIF_DRIVER_DIR}/Source/Driver_GPIO.c
+    ${ALIF_CMSIS_PACK_DIR}/libs/board_config/board_config.c
+    ${ALIF_CMSIS_DIR}/Source/Driver_USART.c
+    ${ALIF_DRIVERS_DIR}/source/uart.c
+    ${ALIF_DRIVERS_DIR}/source/pinconf.c
+    ${ALIF_DRIVERS_DIR}/source/mhu_driver.c
+    ${ALIF_DRIVERS_DIR}/source/mhu_receiver.c
+    ${ALIF_DRIVERS_DIR}/source/mhu_sender.c
+    ${ALIF_CMSIS_DIR}/Source/Driver_IO.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/port/se_services_port.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/source/services_host_handler.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/source/services_host_clocks.c
+    ${ALIF_CMSIS_PACK_DIR}/se_services/source/services_host_maintenance.c
 )
 
 set_werror_implicit_function_declaration(ensemblecmsis)
@@ -196,7 +215,7 @@ target_link_libraries(conductor_tool_demo_interface INTERFACE
 add_library(rte_interface INTERFACE)
 target_include_directories(rte_interface INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/RTE
-    ${ALIF_RTE_DIR}
+    ${ALIF_DEVICE_DIR}/soc/${ALIF_DEVICE_SKU}/rte
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

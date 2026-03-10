@@ -13,10 +13,6 @@ git submodule init
 git submodule update
 ```
 
-## Building for XIP
-By default application code is executed from TCM. If you want to run code directly from MRAM (XIP), add parameter `-DXIP=1` to your CMake command as seen below.
-Both cores must use the same run mode.
-
 ## Build Conductor Tool demo for High-Performance M55 (M55_HP)
 ```
 mkdir build_hp
@@ -24,11 +20,7 @@ cd build_hp
 ```
 ### Linux and macOS with Apple M Chip
 ```
-cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1
-```
-OR
-```
-cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
+cmake .. -DALIF_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
 ```
 
@@ -40,19 +32,14 @@ You will also need ***gcc compiler***. You can install it from [here](https://de
 Install CMake from [here](https://cmake.org/)
 
 
-Now you can use CMake and generator Ninja 
+Now you can use CMake and generator Ninja
 
 ***NOTE*** Make sure to call in clean build folder
 
 Configure build using CMake
 
 ```
-cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -G "Ninja"
-```
-OR
-
-```
-cmake .. -DENSEMBLE_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
+cmake .. -DALIF_CORE=M55_HP -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
 ```
 
 Then build with Ninja by typing ***ninja***
@@ -64,24 +51,17 @@ cd build_he
 ```
 ### Linux and macOS with Apple M Chip
 ```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1
-```
-OR
-```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
+cmake .. -DALIF_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release
 make
 ```
 ### Windows
 ```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -G "Ninja"
-```
-OR
-```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
+cmake .. -DALIF_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
 ninja
 ```
 
 ## Build Conductor demo with memory stitching
+Memory stitching is valid only with AppKit-e7 and DevKit-e7. DevKit-e4 and DevKit-e8 already has the linear SRAMs.
 Build similar as above, but use CMake option `-DMEMORY_STITCHING=ON`
 Example:
 ```
@@ -90,20 +70,12 @@ cd build_he
 ```
 ### Linux and macOS with Apple M Chip
 ```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON
-```
-OR
-```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON
+cmake .. -DALIF_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE=../toolchain-gnu.cmake -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON
 make
 ```
 ### Windows
 ```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DXIP=1 -DMEMORY_STITCHING=ON -G "Ninja"
-```
-OR
-```
-cmake .. -DENSEMBLE_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON -G "Ninja"
+cmake .. -DALIF_CORE=M55_HE -DCMAKE_TOOLCHAIN_FILE="..\toolchain-gnu.cmake" -DCMAKE_BUILD_TYPE=Release -DMEMORY_STITCHING=ON -G "Ninja"
 make
 ```
 
@@ -111,22 +83,25 @@ Generate ATOC with command:
 ```
 ./app-gen-toc --filename build/config/conductor_tool_demo_mram_memory_stitching.json
 ```
-OR
-```
-./app-gen-toc --filename build/config/conductor_tool_demo_tcm_memory_stitching.json
-```
 
 ## Building for different board variants
-By default, the application is built for DevKit-E7 (Gen 2).
-To build the application for different boards, define ENSEMBLE_BOARD variable for cmake.
+By default, the application is built for DevKit-e7 (Gen 2).
+To build the application for different boards, define TARGET_BOARD variable for cmake.
 ```
--DENSEMBLE_BOARD="devkit_gen2"
+-DTARGET_BOARD=DevKit-e8
 ```
-Possible options: devkit_gen1/2, appkit_alpha1/2, appkit_gen2 or devkit_b0_cob0
+Possible options: AppKit-e7, DevKit-e4, DevKit-e7 and DevKit-e8
+Use [conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) for AppKit-e7 and DevKit-e7.
+Use [conductor_tool_demo_mram_e8.json](conductor_tool_demo_mram_e8.json) for DevKit-e4 and DevKit-e8.
+
+> [!NOTE]
+> Needs SETOOLS v1.110.0 or later for flashing the application to DevKit-e4 and DevKit-e8.
 
 ## Flashing the test application
-In the root there are two SETOOLS config files for this application, [conductor_tool_demo_tcm.json](conductor_tool_demo_tcm.json) or [conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) which can be used for ISP with the Alif Security Toolkit.
-Use either one based on whether your compilation has XIP (MRAM) enabled or do you run code from TCM (default). In root, there is two binaries sram0 and sram1, they need to be copied to same folder as demo binaries when
-using SE tools for flashing. [conductor_tool_demo_tcm.json](conductor_tool_demo_tcm.json) or [conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) both require demo application for both cores and sram0/1-binaries.
+In the root there is SETOOLS config file sfor this application [conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) and
+[conductor_tool_demo_mram_e8.json](conductor_tool_demo_mram_e8.json) which can be used for ISP with the Alif Security Toolkit.
+In root, there are two binaries sram0 and sram1, they need to be copied to same folder as demo binaries when using SE tools for flashing.
+[conductor_tool_demo_mram.json](conductor_tool_demo_mram.json) and [conductor_tool_demo_mram_e8.json](conductor_tool_demo_mram_e8.json)
+do require demo application for both cores and sram0/1-binaries.
 
 M55_HE core uses UART2 and M55_HP core uses UART4 for printing the information to demonstrate how the application works.

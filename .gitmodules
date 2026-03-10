@@ -1,9 +1,9 @@
-[submodule "packs/AlifSemiconductor/Board"]
-	path = packs/AlifSemiconductor/Board
-	url = https://github.com/alifsemi/alif_boardlib.git
 [submodule "packs/AlifSemiconductor/common_app_utils"]
 	path = packs/AlifSemiconductor/common_app_utils
 	url = https://github.com/alifsemi/alif_common-app-utils.git
 [submodule "packs/AlifSemiconductor/Ensemble"]
-	path = packs/AlifSemiconductor/Ensemble
+	path = packs/AlifSemiconductor/cmsis-dfp
 	url = https://github.com/alifsemi/alif_ensemble-cmsis-dfp.git
+[submodule "packs/ARM/CMSIS"]
+	path = packs/ARM/CMSIS
+	url = git@github.com:ARM-software/CMSIS_6.git

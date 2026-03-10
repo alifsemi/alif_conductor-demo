@@ -20,7 +20,7 @@ set(CMAKE_SYSTEM_NAME               Generic)
 set(CMAKE_C_COMPILER_WORKS          1)
 set(CMAKE_CXX_COMPILER_WORKS        1)
 
-if ("${ENSEMBLE_CORE}" STREQUAL "M55_HE" OR "${ENSEMBLE_CORE}" STREQUAL "M55_HP")
+if ("${ALIF_CORE}" STREQUAL "M55_HE" OR "${ALIF_CORE}" STREQUAL "M55_HP")
     set(CMAKE_SYSTEM_PROCESSOR          "cortex-m55")
     set(CMAKE_C_FLAGS                   "-mcpu=cortex-m55 -target=arm-arm-none-eabi")
     set(CMAKE_CXX_FLAGS                 "-mcpu=cortex-m55 -target=arm-arm-none-eabi")
@@ -29,14 +29,7 @@ if ("${ENSEMBLE_CORE}" STREQUAL "M55_HE" OR "${ENSEMBLE_CORE}" STREQUAL "M55_HP"
 endif()
 
 set(CPU_NAME                        ${CMAKE_SYSTEM_PROCESSOR})
-
-if (DEFINED XIP)
-    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/arm_${ENSEMBLE_CORE}_MRAM.sct)
-    set (XIP ${XIP}) # To avoid CMake warning about unused XIP variable
-else()
-    # Default is TCM
-    set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/arm_${ENSEMBLE_CORE}_TCM.sct)
-endif()
+set(ALIF_LINKER_FILE                ${CMAKE_CURRENT_SOURCE_DIR}/linker/arm_${ALIF_CORE}_MRAM.sct)
 
 set(BINARY_EXTENSION                ".axf")
 

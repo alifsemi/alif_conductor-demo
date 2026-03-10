@@ -1,4 +1,4 @@
-/* Copyright (C) 2023-2024 Alif Semiconductor - All Rights Reserved.
+/* Copyright (C) 2023-2025 Alif Semiconductor - All Rights Reserved.
  * Use, distribution and modification of this code is permitted under the
  * terms stated in the Alif Semiconductor Software License Agreement
  *
@@ -9,10 +9,11 @@
  */
 
 #include "uart_tracelib.h"
-#include "global_map.h"
-#include "board.h"
-#include "Driver_GPIO.h"
+#include "board_config.h"
+#include "Driver_IO.h"
 #include "pinconf.h"
+#include "sys_utils.h"
+#include "app_mem_regions.h"
 
 #include <inttypes.h>
 #include <stdio.h>
@@ -21,6 +22,8 @@
 
 #include "RTE_Components.h"
 #include CMSIS_device_header
+
+extern void mpu_init(void);
 
 /*
  * Version info
@@ -255,7 +258,9 @@ static void uart_callback(uint32_t event)
 
 static void init_system()
 {
-    BOARD_Pinmux_Init();
+    mpu_init(); // pull mpu in
+    board_pins_config();
+    board_gpios_config();
 }
 
 /*  ESCLK_SEL Register: 0x10, R/W, Clock Select Register for M55-HP and M55-HE
@@ -285,8 +290,6 @@ void print_clocks()
         hp_clk = 200;
         break;
     case 2:
-        hp_clk = 300;
-        break;
     case 3:
     default:
         hp_clk = 400;
@@ -296,14 +299,10 @@ void print_clocks()
     switch ((*clk_reg) & 0x30)
     {
     case 0x00:
-        he_clk = 60;
-        break;
     case 0x10:
         he_clk = 80;
         break;
     case 0x20:
-        he_clk = 120;
-        break;
     case 0x30:
     default:
         he_clk = 160;
@@ -332,12 +331,12 @@ int main()
     printf("Data from SRAM1: 0x%08" PRIx32 "\n", *data);
 #else
   #if M55_HE
-    printf("Trying to read SRAM1 (0x%08" PRIx32 ")\n", (uint32_t)SRAM1_BASE);
-    volatile uint32_t *data = (uint32_t*)SRAM1_BASE;
+    printf("Trying to read SRAM1 (0x%08" PRIx32 ")\n", (uint32_t)APP_SRAM1_BASE);
+    volatile uint32_t *data = (uint32_t*)APP_SRAM1_BASE;
     printf("Data from SRAM1: 0x%08" PRIx32 "\n", *data);
   #else
-    printf("Trying to read SRAM0 (0x%08" PRIx32 ")\n", (uint32_t)SRAM0_BASE);
-    volatile uint32_t *data = (uint32_t*)SRAM0_BASE;
+    printf("Trying to read SRAM0 (0x%08" PRIx32 ")\n", (uint32_t)APP_SRAM0_BASE);
+    volatile uint32_t *data = (uint32_t*)APP_SRAM0_BASE;
     printf("Data from SRAM0: 0x%08" PRIx32 "\n", *data);
   #endif
 #endif
